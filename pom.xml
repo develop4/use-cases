@@ -12,7 +12,7 @@
 
 	<modules>
 		<module>annotations</module>
-		<module>annotations-spi/annotations-spi</module>
+		<module>annotations-spi</module>
 	</modules>
 
 </project>
