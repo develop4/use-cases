@@ -11,14 +11,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import uk.co.develop4.annotations.utilities.AnnotationPrinter;
 
 /**
  *
  * @author william timpany
  */
-public class CustomSourceAnnotationImplTest {
+public class SourceAnnotationExampleTest {
 
-    public CustomSourceAnnotationImplTest() {
+    public SourceAnnotationExampleTest() {
     }
 
     @BeforeClass
@@ -38,25 +39,31 @@ public class CustomSourceAnnotationImplTest {
     }
 
     /**
-     * Test of testAnnotation method, of class CustomSourceAnnotationImpl.
+     * Test of testAnnotation method, of class MySourceAnnotationExample.
      */
     @Test
     public void testGetSquare() {
         System.out.println("getSquare");
-        CustomSourceAnnotationImpl instance = new CustomSourceAnnotationImpl();
+        MySourceAnnotationExample instance = new MySourceAnnotationExample();
         int i = instance.getSquare(2);
         assertEquals(i, 4);
     }
 
     /**
-     * Test of testNoAnnotation method, of class CustomSourceAnnotationImpl.
+     * Test of testNoAnnotation method, of class MySourceAnnotationExample.
      */
     @Test
     public void testGetCube() {
         System.out.println("getCube");
-        CustomSourceAnnotationImpl instance = new CustomSourceAnnotationImpl();
+        MySourceAnnotationExample instance = new MySourceAnnotationExample();
         int i = instance.getCube(2);
         assertEquals(i, 8);
+    }
+
+    @Test
+    public void testInst() {
+        MySourceAnnotationExample tester = new MySourceAnnotationExample();
+        AnnotationPrinter.printAnnotations(tester.getClass());
     }
 
 }

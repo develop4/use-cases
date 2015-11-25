@@ -1,4 +1,4 @@
-package uk.co.develop4.annotations.source.custom;
+package uk.co.develop4.annotations.runtime.custom;
 /*
  * (C) Copyright 2015 Develop4 Technologies (http://develop4.co.uk/) and others.
  *
@@ -15,18 +15,22 @@ package uk.co.develop4.annotations.source.custom;
  * limitations under the License.
  *
  */
-import uk.co.develop4.annotations.source.custom.CustomSourceAnnotation;
 
-@CustomSourceAnnotation
-public class CustomSourceAnnotationImpl {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-	@CustomSourceAnnotation
-	public int getSquare(final int testint) {
-            return testint*testint;
-	}
-
-	public int getCube(final int testint) {
-            return testint*testint*testint;
-	}
-
+/**
+ * Simple annotation at the class level.  
+ * One default and one mandatory value.
+ * 
+ * @author william timpany
+ *
+ */
+@Retention( RetentionPolicy.RUNTIME )
+@Target( ElementType.TYPE )
+public @interface MyClassAnnotation {
+	public String name() default "William Timpany";	
+	public String date();
 }

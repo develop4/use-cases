@@ -1,4 +1,4 @@
-package uk.co.develop4.annotations.runtime.custom;
+package uk.co.develop4.annotations.source.custom;
 /*
  * (C) Copyright 2015 Develop4 Technologies (http://develop4.co.uk/) and others.
  *
@@ -15,14 +15,18 @@ package uk.co.develop4.annotations.runtime.custom;
  * limitations under the License.
  *
  */
+import uk.co.develop4.annotations.source.custom.MySourceAnnotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+@MySourceAnnotation
+public class MySourceAnnotationExample {
 
-@Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.FIELD )
-public @interface CustomAnnotatedField {
-	public String name();
+	@MySourceAnnotation
+	public int getSquare(final int testint) {
+            return testint*testint;
+	}
+
+	public int getCube(final int testint) {
+            return testint*testint*testint;
+	}
+
 }

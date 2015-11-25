@@ -16,16 +16,13 @@ package uk.co.develop4.annotations.runtime.custom;
  *
  */
 
-import org.junit.Test;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import uk.co.develop4.annotations.utilities.AnnotationPrinter;
-
-public class CustomClassAnnotationTest {
-	
-	@Test
-	public void testInst() {
-		AnnotatedClassImpl tester = new AnnotatedClassImpl();
-		AnnotationPrinter.printAnnotations(tester.getClass());
-	}
-	
+@Retention( RetentionPolicy.RUNTIME )
+@Target( ElementType.METHOD )
+public @interface MyMethodAnnotation {
+	public String name();	
 }

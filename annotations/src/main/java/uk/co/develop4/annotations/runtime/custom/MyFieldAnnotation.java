@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.METHOD )
-public @interface CustomMethodAnnotation {
-	public String name();	
+@Target( ElementType.FIELD )
+public @interface MyFieldAnnotation {
+	public String name();
 }

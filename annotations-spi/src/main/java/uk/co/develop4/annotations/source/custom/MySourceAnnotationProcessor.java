@@ -1,6 +1,6 @@
 package uk.co.develop4.annotations.source.custom;
 /*
- * (C) Copyright 2015 Develop4 Technologies (http://develop4.co.uk/) and others.
+ * (C) Copyright 2015 Develop4 Technologies Ltd
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ import javax.tools.Diagnostic;
  * @author william timpany
  *
  */
-@SupportedAnnotationTypes({ "uk.co.develop4.annotations.source.custom.CustomSourceAnnotation" })
-public class CustomSourceAnnotationProcessor extends AbstractProcessor {
+@SupportedAnnotationTypes({ "uk.co.develop4.annotations.source.custom.MySourceAnnotation" })
+public class MySourceAnnotationProcessor extends AbstractProcessor {
 
 	/*
 	 * When the annotations supported are detected, process then then return true to swallow the annotation
@@ -48,7 +48,7 @@ public class CustomSourceAnnotationProcessor extends AbstractProcessor {
 
 		for (TypeElement te : annotations) {
 			for (Element e : env.getElementsAnnotatedWith(te)) {
-				messager.printMessage(Diagnostic.Kind.NOTE, "Detected CustomSourceAnnotation During Compile: " + e.toString());
+				messager.printMessage(Diagnostic.Kind.NOTE, "--> MySourceAnnotationProcessor detected MySourceAnnotation During Compile: " + e.toString());
 			}
 		}
 		return true;

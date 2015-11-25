@@ -16,13 +16,16 @@ package uk.co.develop4.annotations.runtime.custom;
  *
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.junit.Test;
 
-@Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.METHOD )
-public @interface CustomAnnotatedInterceptor {
+import uk.co.develop4.annotations.utilities.AnnotationPrinter;
 
+public class AnnotatedClassTest {
+	
+	@Test
+	public void testInst() {
+		AnnotatedClassExample tester = new AnnotatedClassExample();
+		AnnotationPrinter.printAnnotations(tester.getClass());
+	}
+	
 }

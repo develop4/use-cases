@@ -21,16 +21,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Simple annotation at the class level.  
- * One default and one mandatory value.
- * 
- * @author william timpany
- *
- */
 @Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.TYPE )
-public @interface CustomClassAnnotation {
-	public String name() default "William Timpany";	
-	public String date();
+@Target( ElementType.METHOD )
+public @interface MyAnnotatedInterceptor {
+
 }

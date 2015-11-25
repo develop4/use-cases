@@ -16,16 +16,19 @@ package uk.co.develop4.annotations.runtime.custom;
  *
  */
 
-import uk.co.develop4.annotations.runtime.custom.CustomClassAnnotation;
+import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
+import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
+import uk.co.develop4.annotations.runtime.custom.MyFieldAnnotation;
+import uk.co.develop4.annotations.runtime.custom.MyMethodAnnotation;
 
-@CustomClassAnnotation(name="William J. Timpany", date="22-07-1969")
-public class AnnotatedClassImpl {
+@MyClassAnnotation(name="William J. Timpany", date="22-07-1969")
+public class AnnotatedClassExample {
 
-	@CustomAnnotatedField(name="annotated field")
+	@MyFieldAnnotation(name="annotated field")
 	private String myAnnotatedField;
 	
-	@CustomMethodAnnotation(name="custom annotated method")
+	@MyMethodAnnotation(name="custom annotated method")
 	public void myAnnotatedMethod() {
-		
+            // -- do nothing
 	}
 }
