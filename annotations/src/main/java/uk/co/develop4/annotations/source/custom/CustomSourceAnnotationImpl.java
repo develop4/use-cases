@@ -21,12 +21,12 @@ import uk.co.develop4.annotations.source.custom.CustomSourceAnnotation;
 public class CustomSourceAnnotationImpl {
 
 	@CustomSourceAnnotation
-	public void testAnnotation() {
-
+	public int getSquare(final int testint) {
+            return testint*testint;
 	}
 
-	public void testNoAnnotation() {
-
+	public int getCube(final int testint) {
+            return testint*testint*testint;
 	}
 
 }
