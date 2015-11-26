@@ -16,19 +16,13 @@ package uk.co.develop4.annotations.runtime.custom;
  *
  */
 
-import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
-import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
-import uk.co.develop4.annotations.runtime.custom.MyFieldAnnotation;
-import uk.co.develop4.annotations.runtime.custom.MyMethodAnnotation;
 
-@MyClassAnnotation(name="William J. Timpany", date="22-07-1969")
-public class AnnotatedClassExample {
+/**
+ * This class will allow the inherited annotation to be passed to its sub classes
+ * 
+ * @author william timpany
+ */
+@MyInheritedAnnotation(name="Inherited from AnnotatedSuperClassExample")
+public class AnnotatedSuperClassExample {
 
-	@MyFieldAnnotation(name="custom annotated field")
-	private String myAnnotatedField;
-	
-	@MyMethodAnnotation(name="custom annotated method")
-	public void myAnnotatedMethod() {
-            // -- do nothing
-	}
 }

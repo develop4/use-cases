@@ -1,4 +1,5 @@
 package uk.co.develop4.annotations.runtime.custom;
+
 /*
  * (C) Copyright 2015 Develop4 Technologies (http://develop4.co.uk/) and others.
  *
@@ -15,17 +16,31 @@ package uk.co.develop4.annotations.runtime.custom;
  * limitations under the License.
  *
  */
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-import uk.co.develop4.annotations.utilities.AnnotationPrinter;
 
 public class AnnotatedClassTest {
-	
-	@Test
-	public void testInst() {
-		AnnotatedClassExample tester = new AnnotatedClassExample();
-		AnnotationPrinter.printAnnotations(tester.getClass());
-	}
-	
+
+    @Test
+    public void annotationsClass() {
+        assertThat("Class annotation:", AnnotatedClassExample.class.isAnnotationPresent(MyClassAnnotation.class), is(equalTo(true)));
+        assertThat("Class name:", ((MyClassAnnotation) AnnotatedClassExample.class.getAnnotation(MyClassAnnotation.class)).name(), is(equalTo("William J. Timpany")));
+        assertThat("Class date:", ((MyClassAnnotation) AnnotatedClassExample.class.getAnnotation(MyClassAnnotation.class)).date(), is(equalTo("22-07-1969")));
+    }
+
+    @Test
+    public void annotationsMethod() throws NoSuchMethodException {
+        assertThat("Method annotation:", AnnotatedClassExample.class.getDeclaredMethod("myAnnotatedMethod").isAnnotationPresent(MyMethodAnnotation.class), is(equalTo(true)));
+        assertThat("Method name:", ((MyMethodAnnotation) AnnotatedClassExample.class.getDeclaredMethod("myAnnotatedMethod").getAnnotation(MyMethodAnnotation.class)).name(), is(equalTo("custom annotated method")));
+    }
+
+    @Test
+    public void annotationsField() throws NoSuchFieldException{
+        assertThat("Field annotation:", AnnotatedClassExample.class.getDeclaredField("myAnnotatedField").isAnnotationPresent(MyFieldAnnotation.class), is(equalTo(true)));
+        assertThat("Field name:", ((MyFieldAnnotation) AnnotatedClassExample.class.getDeclaredField("myAnnotatedField").getAnnotation(MyFieldAnnotation.class)).name(), is(equalTo("custom annotated field")));
+    }
 }

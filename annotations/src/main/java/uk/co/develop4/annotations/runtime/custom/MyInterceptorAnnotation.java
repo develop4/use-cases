@@ -16,19 +16,13 @@ package uk.co.develop4.annotations.runtime.custom;
  *
  */
 
-import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
-import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
-import uk.co.develop4.annotations.runtime.custom.MyFieldAnnotation;
-import uk.co.develop4.annotations.runtime.custom.MyMethodAnnotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@MyClassAnnotation(name="William J. Timpany", date="22-07-1969")
-public class AnnotatedClassExample {
+@Retention( RetentionPolicy.RUNTIME )
+@Target( ElementType.METHOD )
+public @interface MyInterceptorAnnotation {
 
-	@MyFieldAnnotation(name="custom annotated field")
-	private String myAnnotatedField;
-	
-	@MyMethodAnnotation(name="custom annotated method")
-	public void myAnnotatedMethod() {
-            // -- do nothing
-	}
 }
