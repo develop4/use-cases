@@ -37,6 +37,7 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -90,7 +91,7 @@
             <version>3.2.0</version>
             <scope>test</scope>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
@@ -105,7 +106,6 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
-
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -152,6 +152,25 @@
                     <attachClasses>true</attachClasses>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19</version>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -240,10 +259,10 @@
                     <type>pom</type>
                     <scope>provided</scope>
                     <exclusions>
-                      <exclusion>
-                        <groupId>xalan</groupId>
-                        <artifactId>xalan</artifactId>
-                      </exclusion>
+                        <exclusion>
+                            <groupId>xalan</groupId>
+                            <artifactId>xalan</artifactId>
+                        </exclusion>
                     </exclusions>
                 </dependency>
                 <dependency>

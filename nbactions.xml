@@ -8,4 +8,18 @@
                 <goal>install:install</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-integration-test</actionName>
+            <displayName>integration-test</displayName>
+            <goals>
+                <goal>integration-test</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-test</actionName>
+            <displayName>test</displayName>
+            <goals>
+                <goal>test-compile</goal>
+            </goals>
+        </action>
     </actions>

@@ -15,44 +15,29 @@
  */
 package uk.co.develop4.annotations.runtime.custom;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import org.junit.Test;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.MatcherAssert.assertThat;
-import org.jboss.shrinkwrap.api.ArchivePaths;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  *
  * @author williamtimpany
  */
 @RunWith(Arquillian.class)
-public class RetryPolicyTest {
+public class RetryPolicyIT {
 
     @Deployment
     public static Archive<?> createDeployment() {
         JavaArchive jar;
         jar = ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, RetryPolicyTest.class.getPackage())
+                .addPackages(true, RetryPolicyIT.class.getPackage())
                 .addAsManifestResource("beans.xml");
         return jar;
     }
