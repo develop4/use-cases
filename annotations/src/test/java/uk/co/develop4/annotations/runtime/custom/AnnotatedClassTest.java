@@ -19,28 +19,34 @@ package uk.co.develop4.annotations.runtime.custom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 
 public class AnnotatedClassTest {
 
+    @Test 
+    public void checkMethods() {
+        AnnotatedClassExample myClass = new AnnotatedClassExample();
+        myClass.setMyAnnotatedField("testdata");
+        assertThat(myClass.getMyAnnotatedField()).isEqualTo("testdata");
+    }
     @Test
     public void annotationsClass() {
-        assertThat("Class annotation:", AnnotatedClassExample.class.isAnnotationPresent(MyClassAnnotation.class), is(equalTo(true)));
-        assertThat("Class name:", ((MyClassAnnotation) AnnotatedClassExample.class.getAnnotation(MyClassAnnotation.class)).name(), is(equalTo("William J. Timpany")));
-        assertThat("Class date:", ((MyClassAnnotation) AnnotatedClassExample.class.getAnnotation(MyClassAnnotation.class)).date(), is(equalTo("22-07-1969")));
+        assertThat(AnnotatedClassExample.class.isAnnotationPresent(MyClassAnnotation.class)).isEqualTo(true);
+        assertThat(((MyClassAnnotation) AnnotatedClassExample.class.getAnnotation(MyClassAnnotation.class)).name()).isEqualTo("William J. Timpany");
+        assertThat(((MyClassAnnotation) AnnotatedClassExample.class.getAnnotation(MyClassAnnotation.class)).date()).isEqualTo("22-07-1969");
     }
 
     @Test
     public void annotationsMethod() throws NoSuchMethodException {
-        assertThat("Method annotation:", AnnotatedClassExample.class.getDeclaredMethod("myAnnotatedMethod").isAnnotationPresent(MyMethodAnnotation.class), is(equalTo(true)));
-        assertThat("Method name:", ((MyMethodAnnotation) AnnotatedClassExample.class.getDeclaredMethod("myAnnotatedMethod").getAnnotation(MyMethodAnnotation.class)).name(), is(equalTo("custom annotated method")));
+        assertThat(AnnotatedClassExample.class.getDeclaredMethod("getMyAnnotatedField").isAnnotationPresent(MyMethodAnnotation.class)).isEqualTo(true);
+        assertThat(((MyMethodAnnotation) AnnotatedClassExample.class.getDeclaredMethod("getMyAnnotatedField").getAnnotation(MyMethodAnnotation.class)).name()).isEqualTo("custom annotated method");
     }
 
     @Test
     public void annotationsField() throws NoSuchFieldException{
-        assertThat("Field annotation:", AnnotatedClassExample.class.getDeclaredField("myAnnotatedField").isAnnotationPresent(MyFieldAnnotation.class), is(equalTo(true)));
-        assertThat("Field name:", ((MyFieldAnnotation) AnnotatedClassExample.class.getDeclaredField("myAnnotatedField").getAnnotation(MyFieldAnnotation.class)).name(), is(equalTo("custom annotated field")));
+        assertThat(AnnotatedClassExample.class.getDeclaredField("myAnnotatedField").isAnnotationPresent(MyFieldAnnotation.class)).isEqualTo(true);
+        assertThat(((MyFieldAnnotation) AnnotatedClassExample.class.getDeclaredField("myAnnotatedField").getAnnotation(MyFieldAnnotation.class)).name()).isEqualTo("custom annotated field");
     }
 }

@@ -1,31 +1,28 @@
-package uk.co.develop4.annotations.runtime.custom;
 /*
- * (C) Copyright 2015 Develop4 Technologies (http://develop4.co.uk/) and others.
+ * Copyright 2015 Develop4 Technologies Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-
+package uk.co.develop4.annotations.runtime.custom;
 
 /**
- * This class will allow the inherited annotation to be passed to its sub classes
- * 
- * @author william timpany
+ *
+ * @author williamtimpany
  */
-@MyInheritedAnnotation(name="Inherited from AnnotatedSuperClassExample")
-public class AnnotatedSuperClassExample {
+public interface RetryService {
 
-    public String dummyMethod() {
-        return "test";
-    }
+    String getRemoteValue() throws Exception;
+
+    void reset(int failedFor);
+    
 }

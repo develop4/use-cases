@@ -1,4 +1,5 @@
 package uk.co.develop4.annotations.runtime.custom;
+
 /*
  * (C) Copyright 2015 Develop4 Technologies (http://develop4.co.uk/) and others.
  *
@@ -21,14 +22,18 @@ import uk.co.develop4.annotations.runtime.custom.MyClassAnnotation;
 import uk.co.develop4.annotations.runtime.custom.MyFieldAnnotation;
 import uk.co.develop4.annotations.runtime.custom.MyMethodAnnotation;
 
-@MyClassAnnotation(name="William J. Timpany", date="22-07-1969")
+@MyClassAnnotation(name = "William J. Timpany", date = "22-07-1969")
 public class AnnotatedClassExample {
 
-	@MyFieldAnnotation(name="custom annotated field")
-	private String myAnnotatedField;
-	
-	@MyMethodAnnotation(name="custom annotated method")
-	public void myAnnotatedMethod() {
-            // -- do nothing
-	}
+    @MyFieldAnnotation(name = "custom annotated field")
+    private String myAnnotatedField;
+
+    @MyMethodAnnotation(name = "custom annotated method")
+    public String getMyAnnotatedField() {
+        return myAnnotatedField;
+    }
+
+    public void setMyAnnotatedField(String myAnnotatedField) {
+        this.myAnnotatedField = myAnnotatedField;
+    }
 }

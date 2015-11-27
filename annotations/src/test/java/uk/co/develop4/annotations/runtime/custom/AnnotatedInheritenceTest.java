@@ -17,8 +17,8 @@ package uk.co.develop4.annotations.runtime.custom;
 
 import java.lang.annotation.Annotation;
 import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  *
  * @author william timpany
@@ -27,13 +27,22 @@ public class AnnotatedInheritenceTest {
     
     @Test
     public void inheritenceSuperClassTest() {
-        assertThat("Class annotation:", AnnotatedSuperClassExample.class.isAnnotationPresent( MyInheritedAnnotation.class ), is(equalTo(true)) );
+        AnnotatedSuperClassExample myClass = new AnnotatedSuperClassExample();
+        assertThat(myClass.dummyMethod())
+                .isEqualTo("test");
+        assertThat(AnnotatedSuperClassExample.class.isAnnotationPresent( MyInheritedAnnotation.class ))
+                .isEqualTo(true);
     }
     
     @Test
     public void inheritenceSubClassTest() {
-        assertThat("SubClass annotation:", AnnotatedSubClassExample.class.isAnnotationPresent( MyInheritedAnnotation.class ) , is(equalTo(true)) );
-        assertThat("SubClass annotation name:", ((MyInheritedAnnotation)AnnotatedSubClassExample.class.getAnnotation(MyInheritedAnnotation.class)).name(), is(equalTo("Inherited from AnnotatedSuperClassExample") ));
+        AnnotatedSubClassExample myClass = new AnnotatedSubClassExample();
+        assertThat(myClass.dummyMethod())
+                .isEqualTo("test");
+        assertThat(AnnotatedSubClassExample.class.isAnnotationPresent( MyInheritedAnnotation.class ))
+                .isEqualTo(true);
+        assertThat(((MyInheritedAnnotation)AnnotatedSubClassExample.class.getAnnotation(MyInheritedAnnotation.class)).name())
+                .isEqualTo("Inherited from AnnotatedSuperClassExample");
     }
     
 }
