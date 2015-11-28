@@ -19,3 +19,4 @@ hs_err_pid*
 /annotations copy/nbproject/
 /cdi/nbproject/
 /annotations-cdi/nbproject/
+/persistance-jpa/target/

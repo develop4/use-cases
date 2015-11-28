@@ -4,9 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>annotations-spi</artifactId>
     <packaging>jar</packaging>
-
     <name>Annotations SPI</name>
-
 
     <build>
         <plugins>

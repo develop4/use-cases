@@ -49,6 +49,7 @@
         <module>annotations</module>
         <module>annotations-spi</module>
         <module>annotations-cdi</module>
+        <module>persistance-jpa</module>
     </modules>
 
     <dependencyManagement>
@@ -107,6 +108,7 @@
             </testResource>
         </testResources>
         <plugins>
+            <!--
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -126,6 +128,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
