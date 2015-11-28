@@ -17,9 +17,6 @@ package uk.co.develop4.persistence.jpa.entities;
 
 import java.io.Serializable;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -87,8 +84,8 @@ public class Person implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("uk.co.develop4.persistance.jpa.entities.Person[");
-        sb.append(" id=" + id);
-        sb.append(",email=" + email);
+        sb.append(" id=").append(id);
+        sb.append(",email=").append(email);
         sb.append(" ]");
         return sb.toString();
     }
