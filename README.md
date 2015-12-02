@@ -19,6 +19,8 @@ The first set of examples is to test the various features provided by annotation
 
 **Annotations CDI**
 
+Use an embedded Glassfish (Payara 4.1.1) server to run the tests.
+
 * Interceptor with Annotations
     - provide a retry mechanism for methods that can be retried upon failure.
 
