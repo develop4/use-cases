@@ -21,10 +21,10 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 /**
  *
@@ -33,19 +33,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(Arquillian.class)
 public class RetryPolicyIT {
 
-    @Deployment
-    public static Archive<?> createDeployment() {
-        JavaArchive jar;
-        jar = ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, RetryPolicyIT.class.getPackage())
-                .addAsManifestResource("beans.xml");
-        return jar;
-    }
-    
     @Inject
     RetryService rps;
-            
-    @Test 
+
+    @Deployment
+    public static Archive<?> createDeployment() {
+        WebArchive war;
+        war = ShrinkWrap.create(WebArchive.class)
+                .addPackages(true, RetryPolicyIT.class.getPackage())
+                .addAsWebInfResource("web.xml", "web.xml")
+                .addAsWebInfResource("beans.xml", "beans.xml");
+        return war;
+    }
+
+    @Test
     public void retryTest() {
         rps.reset(2);
         String result = null;
@@ -57,8 +58,8 @@ public class RetryPolicyIT {
         assertThat(result).isNotNull();
         assertThat(result).contains("Finished at last after");
     }
-    
-    @Test 
+
+    @Test
     public void retryTestFails() {
         rps.reset(4);
         String result = null;
