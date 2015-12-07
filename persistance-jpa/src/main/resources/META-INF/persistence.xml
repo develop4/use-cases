@@ -3,9 +3,14 @@
   <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <!-- Converters -->
-    <!-- Entities / Model -->
-    <class>uk.co.develop4.persistence.jpa.entities.Person</class>
     <class>uk.co.develop4.persistence.jpa.eclipselink.DerbyUUIDConverter</class>
+    <class>uk.co.develop4.persistence.jpa.eclipselink.StateEnumConvertor</class>
+    <!-- Entities / Model -->
+    <!--
+    <class>uk.co.develop4.persistence.jpa.entities.StateEnum</class>
+    -->
+    <class>uk.co.develop4.persistence.jpa.entities.Person</class>
+    <class>uk.co.develop4.persistence.jpa.entities.BaseTimeStampedEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:unit-testing-jpa;create=true"/>

@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -37,15 +39,17 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersistenceTest {
 
-    private static Logger logger = Logger.getLogger(PersistenceTest.class.getName());
+    private static final Logger logger = Logger.getLogger(PersistenceTest.class.getName());
 
     private static EntityManagerFactory emf;
     private static EntityManager em;
-    private static final String testPersistenceUnit = "testPU";
+    private static String testPersistenceUnit = "testPU";
     private static Map registry = new HashMap();
 
     @BeforeClass
     public static void initTestFixture() throws Exception {
+        LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST); 
+
         registry.clear();
         emf = Persistence.createEntityManagerFactory(testPersistenceUnit);
         em = emf.createEntityManager();
@@ -65,38 +69,46 @@ public class PersistenceTest {
     public void test1Persistence() {
         try {
             em.getTransaction().begin();
-            Person p = Person.builder().email("person1@test.co.uk").build();
+            Person p = Person.builder()
+                    .email("person1@test.co.uk")
+                    .age(40)
+                    .state(StateEnum.ACTIVE)
+                    .build();
             em.persist(p);
-            assertThat(em.contains(p)).as("Person has been persisted",p.getEmail()).isNotNull();
-            assertThat(p.getId()).as("Person id has been set",p.getEmail()).isNotNull();
+            assertThat(em.contains(p)).as("Person has been persisted", p.getEmail()).isNotNull();
+            assertThat(p.getId()).as("Person id has been set", p.getEmail()).isNotNull();
             em.getTransaction().commit();
-            registry.put("p1_pk",p.getId());
+            registry.put("p1_pk", p.getId());
         } catch (Exception ex) {
             em.getTransaction().rollback();
             ex.printStackTrace();
         }
     }
-    
+
     @Test
     public void test2Persistence() {
         try {
             em.getTransaction().begin();
-            Person p = Person.builder().email("person2@test.co.uk").build();
+            Person p = Person.builder()
+                    .email("person2@test.co.uk")
+                    .age(30)
+                    .state(StateEnum.RETIRED)
+                    .build();
             em.persist(p);
-            assertThat(em.contains(p)).as("Person has been persisted",p.getEmail()).isNotNull();
-            assertThat(p.getId()).as("Person id has been set",p.getEmail()).isNotNull();
+            assertThat(em.contains(p)).as("Person has been persisted", p.getEmail()).isNotNull();
+            assertThat(p.getId()).as("Person id has been set", p.getEmail()).isNotNull();
             em.getTransaction().commit();
-            registry.put("p2_pk",p.getId());        
+            registry.put("p2_pk", p.getId());
         } catch (Exception ex) {
             em.getTransaction().rollback();
             ex.printStackTrace();
         }
     }
-    
+
     @Test
     public void test3Persistence() {
         try {
-            Object p_pk = (UUID)registry.get("p1_pk");
+            Object p_pk = (UUID) registry.get("p1_pk");
             em.getTransaction().begin();
             Person p = em.find(Person.class, p_pk);
             assertThat(p).as("Person has been found for id").isNotNull();
@@ -107,18 +119,20 @@ public class PersistenceTest {
             ex.printStackTrace();
         }
     }
-    
+
     @Test
     public void test4Persistence() {
         try {
             em.getTransaction().begin();
+            
             List<Person> listOfPersons = em.createNamedQuery("Person.getPersons").getResultList();
+            listOfPersons.stream().forEach(System.out::println);
 
             assertThat(listOfPersons).as("Only two Pepole are in the list")
                     .hasSize(2)
                     .extracting(person -> person.getEmail())
-                        .contains("person1@test.co.uk", "person2@test.co.uk")
-                        .doesNotContain("fake@fake.co.uk");
+                    .contains("person1@test.co.uk", "person2@test.co.uk")
+                    .doesNotContain("fake@fake.co.uk");
 
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -126,5 +140,45 @@ public class PersistenceTest {
             ex.printStackTrace();
         }
     }
+
+    @Test
+    public void test5Persistence() {
+        try {
+            em.getTransaction().begin();
+            List<Person> x = (List<Person>)em.createNativeQuery("SELECT p.id, p.email, p.age, p.state, p.updatedDate, p.createdDate FROM Person p", Person.class).getResultList();
+            x.stream().forEach(System.out::println);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
     
+    @Test
+    public void test6Persistence() {
+        try {
+            Object p_pk = (UUID) registry.get("p1_pk");
+            em.getTransaction().begin();
+            Person p = em.find(Person.class, p_pk);
+            assertThat(p).as("Person has been found for id").isNotNull();
+            assertThat(p.getAge()).as("Person has the correct age").isEqualTo(40);
+            p.setAge(60);
+            em.getTransaction().commit();
+            
+            em.getTransaction().begin();
+            p = em.find(Person.class, p_pk);
+            assertThat(p.getAge()).as("Person has the correct age").isEqualTo(60);
+            em.getTransaction().commit();
+            
+            em.getTransaction().begin();
+            List<Person> x = (List<Person>)em.createNativeQuery("SELECT p.id, p.email, p.age, p.state, p.updatedDate, p.createdDate FROM Person p", Person.class).getResultList();
+            x.stream().forEach(System.out::println);
+            em.getTransaction().commit();
+            
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
+
 }

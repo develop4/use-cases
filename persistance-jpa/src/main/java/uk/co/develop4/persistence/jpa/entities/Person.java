@@ -15,44 +15,31 @@
  */
 package uk.co.develop4.persistence.jpa.entities;
 
-import java.io.Serializable;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import org.eclipse.persistence.annotations.UuidGenerator;
+import javax.persistence.Table;
+import static uk.co.develop4.persistence.jpa.entities.AssertionConcern.assertArgumentNotEmpty;
 
 /**
  *
- * @author williamtimpany
+ * @author william timpany
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="Person.getPersons", query="select p from Person p")          
+    @NamedQuery(name = "Person.getPersons", query = "select p from Person p")
 })
-@UuidGenerator(name = "PERSON_ID_GEN")
-public class Person implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(generator = "PERSON_ID_GEN")
-    private UUID id;
+public class Person extends BaseEntity {
 
     private String email;
+    
+    //@Column(columnDefinition = "CHAR(1)")
+    private StateEnum state;
 
-    public Person() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
+    private int age;
+    
     public String getEmail() {
         return email;
     }
@@ -61,40 +48,65 @@ public class Person implements Serializable {
         this.email = email;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public StateEnum getState() {
+        return state;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Person)) {
-            return false;
-        }
-        Person other = (Person) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public void setState(StateEnum state) {
+        this.state = state;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("uk.co.develop4.persistance.jpa.entities.Person[");
-        sb.append(" id=").append(id);
-        sb.append(",email=").append(email);
+        sb.append(" id=").append(getId());
+        sb.append(",email=").append(getEmail());
+        sb.append(",age=").append(getAge());
+        sb.append(",state=").append(getState());
+        sb.append(",updatedDate=").append(getUpdatedDate());
+        sb.append(",createdDate=").append(getCreatedDate());
         sb.append(" ]");
         return sb.toString();
+    }
+
+    /**
+     * @return the age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * @param age the age to set
+     */
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public static class Builder {
 
         private String email;
+        private StateEnum state;
+        private int age;
+        private UUID id = UUID.randomUUID();
 
         private Builder() {
+        }
+
+        public Builder id(final UUID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder state(final StateEnum state) {
+            this.state = state;
+            return this;
+        }
+        
+        public Builder age(final int age) {
+            this.age = age;
+            return this;
         }
 
         public Builder email(final String value) {
@@ -103,7 +115,17 @@ public class Person implements Serializable {
         }
 
         public Person build() {
-            return new uk.co.develop4.persistence.jpa.entities.Person(email);
+            // --  Guards
+            assertArgumentNotEmpty(email, "email: must be provided.");
+            assertArgumentNotNull(state, "state: must be provided.");
+            // -- Populate
+            Person person = new Person();
+            person.setId(id);
+            person.setAge(age);
+            person.setEmail(email);
+            person.setState(state);
+            // -- return new object
+            return person;
         }
     }
 
@@ -111,8 +133,8 @@ public class Person implements Serializable {
         return new Person.Builder();
     }
 
-    private Person(final String email) {
-        this.email = email;
+    private Person() {
+        super();
     }
 
 }

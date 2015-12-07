@@ -15,30 +15,31 @@
  */
 package uk.co.develop4.persistence.jpa.eclipselink;
 
-import java.util.UUID;
 import java.util.logging.Logger;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import uk.co.develop4.persistence.jpa.entities.StateEnum;
+import static uk.co.develop4.persistence.jpa.entities.StateEnum.fromShortName;
 
 /**
  *
  * @author williamtimpany
  */
 @Converter(autoApply = true)
-public class DerbyUUIDConverter implements AttributeConverter<UUID, String> {
-
-    private final static Logger LOGGER = Logger.getLogger(DerbyUUIDConverter.class.getName()); 
-
+public class StateEnumConvertor implements AttributeConverter<StateEnum,String> {
+    
+    private final static Logger LOGGER = Logger.getLogger(StateEnumConvertor.class.toString()); 
+        
     @Override
-    public String convertToDatabaseColumn(UUID attribute) {
-        LOGGER.finest("onvertToDatabaseColumn: " + attribute);
-        return attribute.toString();
+    public String convertToDatabaseColumn(StateEnum attribute) {
+        LOGGER.finest("convertToDatabaseColumn: " + attribute);
+        return attribute.getShortName();
     }
 
     @Override
-    public UUID convertToEntityAttribute(String dbData) {
+    public StateEnum convertToEntityAttribute(String dbData) {
         LOGGER.finest("convertToEntityAttribute: " + dbData);
-        return UUID.fromString(dbData);
+        return fromShortName(dbData);
     }
-
+    
 }
