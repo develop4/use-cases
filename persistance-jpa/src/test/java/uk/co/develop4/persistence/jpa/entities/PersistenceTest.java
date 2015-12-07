@@ -31,6 +31,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -39,7 +40,7 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersistenceTest {
 
-    private static final Logger LOGGER = Logger.getLogger(PersistenceTest.class.getName());
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PersistenceTest.class);
 
     private static EntityManagerFactory emf;
     private static EntityManager em;

@@ -15,6 +15,7 @@
  */
 package uk.co.develop4.persistence.jpa.entities;
 
+import uk.co.develop4.persistence.jpa.common.DomainIdentityGenerator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;

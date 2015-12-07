@@ -13,30 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.co.develop4.persistence.jpa.entities;
+package uk.co.develop4.persistence.jpa.common;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author williamtimpany
  */
-class DomainIdentityGenerator {
+public class DomainIdentityGenerator {
+   
 
     public static class LongGenerator {
+        private static final Logger LOGGER = LoggerFactory.getLogger(LongGenerator.class);
 
         private static AtomicLong longId = new AtomicLong(0);
 
         public static Long next() {
-            return longId.incrementAndGet();
+            Long l = longId.incrementAndGet();
+            LOGGER.debug("Generated Long PK: {}", l);
+            return l;
         }
     }
 
     public static class UUIDGenerator {
+        private static final Logger LOGGER = LoggerFactory.getLogger(UUIDGenerator.class);
 
         public static UUID next() {
-            return UUID.randomUUID();
+            UUID u = UUID.randomUUID();
+            LOGGER.debug("Generated UUID PK: {}", u);
+            return u;
         }
     }
 

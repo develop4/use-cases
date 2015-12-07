@@ -15,6 +15,7 @@
  */
 package uk.co.develop4.persistence.jpa.entities;
 
+import uk.co.develop4.persistence.jpa.common.DomainIdentityGenerator;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
