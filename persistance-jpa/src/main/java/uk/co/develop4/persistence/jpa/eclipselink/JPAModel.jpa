@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xs="false" id="_14495152710128" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd">
+    <jpa:mapped-superclass xre="false" compositePrimaryKeyType="NONE" sm="false" abstract="true" class="AbstractEntity" visibile="true" minimized="false" rootElement="_14495152710128" id="_144951527103214">
+        <interface-list>
+            <interface>uk.co.develop4.persistence.jpa.entities.Entity&lt;I&gt;</interface>
+        </interface-list>
+        <annotation>@org.eclipse.persistence.annotations.UuidGenerator(name="UUID_GEN")</annotation>
+        <jpa:attributes>
+            <basic attribute-type="java.util.Date" visibile="true" name="updatedDate" id="_144951527103216">
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <basic attribute-type="java.util.Date" visibile="true" name="createdDate" id="_144951527103217">
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </basic>
+            <jpa:version attribute-type="Long" visibile="true" name="version" id="_144951527103215">
+                <jpa:column name="OPTLOCK" unique="false" nullable="true" insertable="true" updatable="true" column-definition="INTEGER DEFAULT 0"/>
+            </jpa:version>
+        </jpa:attributes>
+    </jpa:mapped-superclass>
+    <jpa:entity xre="false" compositePrimaryKeyType="NONE" sm="false" abstract="false" class="Address" superclassId="_144951527103214" visibile="true" minimized="false" rootElement="_14495152710128" id="_144951527102911">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="postCode" id="_144951527103013">
+                <jpa:column name="postcode" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-many connected-entity-id="_144951527104318" connected-attribute-id="_144951530656732" target-entity="Person" visibile="true" name="person1" id="_144951530656431"/>
+            <jpa:id attribute-type="Long" visibile="true" name="id" id="_144951527102912">
+                <jpa:column name="id" unique="false" nullable="true" insertable="true" updatable="true"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity xre="false" compositePrimaryKeyType="NONE" sm="false" abstract="false" class="Person" superclassId="_144951527103214" visibile="true" minimized="false" rootElement="_14495152710128" id="_144951527104318">
+        <jpa:attributes>
+            <basic attribute-type="String" visibile="true" name="email" id="_144951527104320">
+                <jpa:column name="email" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="uk.co.develop4.persistence.jpa.entities.StateEnum" visibile="true" name="state" id="_144951527104321">
+                <jpa:column name="state" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <basic attribute-type="Integer" visibile="true" name="age" id="_144951527104322">
+                <jpa:column name="age" unique="false" nullable="true" insertable="true" updatable="true"/>
+            </basic>
+            <many-to-many mapped-by="person1" collection-type="java.util.Collection" connected-entity-id="_144951527102911" connected-attribute-id="_144951530656431" target-entity="Address" visibile="true" name="addresses" id="_144951530656732"/>
+            <jpa:id attribute-type="java.util.UUID" visibile="true" name="id" id="_144951527104319">
+                <jpa:column name="id" unique="false" nullable="true" insertable="true" updatable="true"/>
+                <jpa:sequence-generator name="id"/>
+            </jpa:id>
+        </jpa:attributes>
+        <jpa:nq name="Person.ListAllPersons">
+            <jpa:query>select p from Person p</jpa:query>
+        </jpa:nq>
+    </jpa:entity>
+    <jpa:diagram id="_14495152710129">
+        <plane elementRef="_14495152710128" id="_144951527101210_p">
+            <shape elementRef="_144951527102911" id="_144951527102911_gui">
+                <Bounds x="482.0" y="205.0" width="147.0" height="121.0"/>
+            </shape>
+            <shape elementRef="_144951527104318" id="_144951527104318_gui">
+                <Bounds x="32.0" y="205.0" width="138.0" height="161.0"/>
+            </shape>
+            <shape elementRef="_144951527103214" id="_144951527103214_gui">
+                <Bounds x="234.0" y="32.0" width="184.0" height="109.0"/>
+            </shape>
+        </plane>
+    </jpa:diagram>
+</jpa:entity-mappings>

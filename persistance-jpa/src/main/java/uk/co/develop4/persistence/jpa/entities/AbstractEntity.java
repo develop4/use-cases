@@ -16,7 +16,6 @@
 package uk.co.develop4.persistence.jpa.entities;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -28,99 +27,91 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.eclipse.persistence.annotations.UuidGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basic entity that provides:
- * - UUID as Primary Key
- * - long as Verion Number for optomistic locking
+ * Basic entity that provides: - UUID as Primary Key - long as Version Number
+ * for optimistic locking
+ *
  * @author william timpany
  */
-@MappedSuperclass  
+@MappedSuperclass
 @UuidGenerator(name = "UUID_GEN")
-public abstract class BaseEntity extends AssertionConcern implements Serializable {
+public abstract class AbstractEntity<I> extends AssertionConcern implements Entity<I> {
 
-    final Logger LOGGER = LoggerFactory.getLogger(BaseEntity.class);
-
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(generator = "UUID_GEN")
-    private UUID id;
-    
     @Version
-    @Column(name="OPTLOCK", columnDefinition = "INTEGER DEFAULT 0")
-    private long version;
-    
+    @Column(name = "OPTLOCK", columnDefinition = "INTEGER DEFAULT 0")
+    private Long version;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
 
-    protected BaseEntity() {
+    protected AbstractEntity() {
         super();
     }
 
-    public UUID getId() {
-        return id;
-    }
-    
-    protected UUID setId(UUID id) {
-        return id = id;
-    }
-    
     @PrePersist
     private void onPrePersist() {
         setCreatedDate(new Date());
         setUpdatedDate(new Date());
-        LOGGER.info("Update timestamp onPrePersist: {}, {}", createdDate, updatedDate);
     }
-    
+
     @PreUpdate
     private void onPreUpdate() {
         setUpdatedDate(new Date());
-        LOGGER.info("Update timestamp onPreUpdate: {}", updatedDate);
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public final boolean identityEquals(Entity<?> other) {
+        if (getId() == null) {
+            return false;
+        }
+        return getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BaseEntity)) {
+    public final int identityHashCode() {
+        return new HashCodeBuilder().append(this.getId()).toHashCode();
+    }
+
+    @Override
+    public final int hashCode() {
+        return identityHashCode();
+    }
+
+    @Override
+    public final boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())) {
             return false;
         }
-        BaseEntity other = (BaseEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return identityEquals((Entity<?>) o);
     }
 
     @Override
     public String toString() {
-        return "uk.co.develop4.persistence.jpa.entities.BaseEntity[ id=" + id + " ]";
+        return "uk.co.develop4.persistence.jpa.entities.BaseEntity[ id=" + getId() + " ]";
     }
 
     /**
      * @return the version
      */
-    public long getVersion() {
+    public Long getVersion() {
         return version;
     }
 
     /**
      * @param version the version to set
      */
-    public void setVersion(long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 

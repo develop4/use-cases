@@ -10,7 +10,9 @@
     <class>uk.co.develop4.persistence.jpa.entities.StateEnum</class>
     -->
     <class>uk.co.develop4.persistence.jpa.entities.Person</class>
-    <class>uk.co.develop4.persistence.jpa.entities.BaseTimeStampedEntity</class>
+    <class>uk.co.develop4.persistence.jpa.entities.Entity</class>
+    <class>uk.co.develop4.persistence.jpa.entities.AbstractEntity</class>
+    <class>uk.co.develop4.persistence.jpa.entities.Address</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:unit-testing-jpa;create=true"/>

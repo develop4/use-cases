@@ -39,7 +39,7 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PersistenceTest {
 
-    private static final Logger logger = Logger.getLogger(PersistenceTest.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PersistenceTest.class.getName());
 
     private static EntityManagerFactory emf;
     private static EntityManager em;
@@ -67,12 +67,16 @@ public class PersistenceTest {
 
     @Test
     public void test1Persistence() {
+        LOGGER.info("test 1 Persistence: ");
         try {
             em.getTransaction().begin();
             Person p = Person.builder()
                     .email("person1@test.co.uk")
                     .age(40)
                     .state(StateEnum.ACTIVE)
+                    .address(Address.builder().postCode("EC2Y XXX").build())
+                    .address(Address.builder().postCode("EC2Y YYY").build())
+                    .address(Address.builder().postCode("EC2Y ZZZ").build())
                     .build();
             em.persist(p);
             assertThat(em.contains(p)).as("Person has been persisted", p.getEmail()).isNotNull();
@@ -87,12 +91,14 @@ public class PersistenceTest {
 
     @Test
     public void test2Persistence() {
+        LOGGER.info("test 2 Persistence: ");
         try {
             em.getTransaction().begin();
             Person p = Person.builder()
                     .email("person2@test.co.uk")
                     .age(30)
                     .state(StateEnum.RETIRED)
+                    .address(Address.builder().postCode("EC2Y QQQ").build())
                     .build();
             em.persist(p);
             assertThat(em.contains(p)).as("Person has been persisted", p.getEmail()).isNotNull();
@@ -107,6 +113,7 @@ public class PersistenceTest {
 
     @Test
     public void test3Persistence() {
+        LOGGER.info("test 3 Persistence: ");
         try {
             Object p_pk = (UUID) registry.get("p1_pk");
             em.getTransaction().begin();
@@ -121,11 +128,13 @@ public class PersistenceTest {
     }
 
     @Test
-    public void test4Persistence() {
+    public void test4aPersistence() {
+        LOGGER.info("test 4a Persistence: ");
         try {
             em.getTransaction().begin();
             
-            List<Person> listOfPersons = em.createNamedQuery("Person.getPersons").getResultList();
+            List<Person> listOfPersons = em.createNamedQuery(Person.NQ_LIST_ALL_PERSONS)
+                    .getResultList();
             listOfPersons.stream().forEach(System.out::println);
 
             assertThat(listOfPersons).as("Only two Pepole are in the list")
@@ -140,12 +149,41 @@ public class PersistenceTest {
             ex.printStackTrace();
         }
     }
+    
+    @Test
+    public void test4bPersistence() {
+        LOGGER.info("test 4b Persistence: ");
+        try {
+            em.getTransaction().begin();
+            
+            List<Person> listOfPersons = em.createNamedQuery(Person.NQ_LIST_PERSONS_BY_POSTCODE)
+                    .setParameter("postCode", "EC2Y XXX")
+                    .getResultList();
+            listOfPersons.stream().forEach(System.out::println);
+
+            assertThat(listOfPersons).as("Only one Pepole are in the list")
+                    .hasSize(1)
+                    .extracting(person -> person.getEmail())
+                    .contains("person1@test.co.uk")
+                    .doesNotContain("fake@fake.co.uk");
+            
+            // -- remove an address from the addresses using the streams api
+            listOfPersons.get(0).getAddresses().removeIf( a -> a.getPostCode().equals("EC2Y XXX") );
+            listOfPersons.stream().forEach(System.out::println);
+
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
 
     @Test
     public void test5Persistence() {
+        LOGGER.info("test 5 Persistence: ");
         try {
             em.getTransaction().begin();
-            List<Person> x = (List<Person>)em.createNativeQuery("SELECT p.id, p.email, p.age, p.state, p.updatedDate, p.createdDate FROM Person p", Person.class).getResultList();
+            List<Person> x = (List<Person>)em.createNativeQuery("SELECT p.person_id, p.email, p.age, p.state, p.updatedDate, p.createdDate FROM Person p", Person.class).getResultList();
             x.stream().forEach(System.out::println);
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -156,6 +194,7 @@ public class PersistenceTest {
     
     @Test
     public void test6Persistence() {
+        LOGGER.info("test 5 Persistence: ");
         try {
             Object p_pk = (UUID) registry.get("p1_pk");
             em.getTransaction().begin();
@@ -171,7 +210,7 @@ public class PersistenceTest {
             em.getTransaction().commit();
             
             em.getTransaction().begin();
-            List<Person> x = (List<Person>)em.createNativeQuery("SELECT p.id, p.email, p.age, p.state, p.updatedDate, p.createdDate FROM Person p", Person.class).getResultList();
+            List<Person> x = (List<Person>)em.createNativeQuery("SELECT p.person_id, p.email, p.age, p.state, p.updatedDate, p.createdDate FROM Person p", Person.class).getResultList();
             x.stream().forEach(System.out::println);
             em.getTransaction().commit();
             
